@@ -2,40 +2,6 @@
 #  Copyright (c) 2003-2016, CHAI3D.
 #  (www.chai3d.org)
 #
-#  All rights reserved.
-#
-#  Redistribution and use in source and binary forms, with or without
-#  modification, are permitted provided that the following conditions
-#
-#  * Redistributions of source code must retain the above copyright
-#  notice, this list of conditions and the following disclaimer.
-#
-#  * Redistributions in binary form must reproduce the above
-#  copyright notice, this list of conditions and the following
-#  disclaimer in the documentation and/or other materials provided
-#  with the distribution.
-#
-#  * Neither the name of CHAI3D nor the names of its contributors may
-#  be used to endorse or promote products derived from this software
-#  without specific prior written permission.
-#
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-#  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-#  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-#  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-#  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-#  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-#  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-#  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-#  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-#  POSSIBILITY OF SUCH DAMAGE.
-#
-#  $Author: seb $
-#  $Date: 2016-11-01 19:39:15 +0100 (Tue, 01 Nov 2016) $
-#  $Rev: 2152 $
-
 
 #
 # configuration
@@ -124,11 +90,13 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES Linux)
   add_definitions (-DLINUX)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -march=native -Wno-deprecated -std=c++0x")
   set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -march=native -Wno-deprecated")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 # Mac OS X global build options
 elseif (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
   add_definitions (-DMACOSX)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Qunused-arguments -Wno-deprecated -std=c++0x -stdlib=libc++")
+
   set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Qunused-arguments -Wno-deprecated")
 endif ()
 
