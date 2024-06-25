@@ -124,6 +124,9 @@ bool cDeltaDevice::s_flagUsingSDK32                          = false;
 HINSTANCE fdDLL = NULL;
 
 int  (__stdcall *dhdGetDeviceCount)                   (void);
+	//1）参数从右向左压入堆栈，
+	//2）函数自身修改堆栈 
+	//3)函数名自动加前导的下划线，后面紧跟一个@符号，其后紧跟着参数的尺寸
 int  (__stdcall *dhdGetDeviceID)                      (void);
 int  (__stdcall *dhdOpenID)                           (char ID);
 int  (__stdcall *dhdGetSystemType)                    (char ID);
@@ -208,7 +211,7 @@ bool cDeltaDevice::openLibraries()
         return (C_ERROR);
     }
 
-    // load different callbacks
+    // load different callbacks ①通过GetProcAddress获取指针 ②由指针转化值 ③调用函数值
     dhdGetDeviceCount = (int (__stdcall*)(void))GetProcAddress(fdDLL, "dhdGetDeviceCount");
     if (dhdGetDeviceCount == NULL) { s_dhdGetDeviceCount = false; }
 
@@ -458,7 +461,7 @@ cDeltaDevice::cDeltaDevice(unsigned int a_deviceNumber, bool a_external): cGener
         return;
     }
 
-    // sanity check
+    // sanity check//健全性检查
     if (a_deviceNumber > (C_MAX_DEVICES - 1))
     {
         return;
@@ -1375,7 +1378,7 @@ bool cDeltaDevice::getRotation(cMatrix3d& a_rotation)
             cVector3d angles;
             angles.set(0,0,0);
 
-            // check if DHD-API call is available
+            // check if DHD-API call is available读取到数据的bool类型，读取到才进行赋值
             if (s_dhdGetOrientationRad)
             {
                 error = dhdGetOrientationRad(&angles(0) , &angles(1) , &angles(2) , m_deviceID);

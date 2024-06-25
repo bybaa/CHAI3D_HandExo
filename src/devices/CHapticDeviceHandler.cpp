@@ -91,7 +91,11 @@ cHapticDeviceHandler::cHapticDeviceHandler()
     // if no device is found. this insures that applications which forget
     // to address the case when no device is connected start sending commands
     // to a NULL pointer...
-    m_nullHapticDevice = cGenericHapticDevice::create();
+	//创建空触觉设备。返回指向此设备的指针
+	//如果找不到设备。这可以确保忘记的应用程序
+	//要解决没有连接设备的情况，请开始发送命令
+	//指向空指针。。。
+    m_nullHapticDevice = cGenericHapticDevice::create();//通用触觉设备
 
     // clear device table
     unsigned int i;

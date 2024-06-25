@@ -211,12 +211,13 @@ public:
 
 
     //--------------------------------------------------------------------------
-    // PUBLIC  STATIC METHODS:
+    // PUBLIC  STATIC METHODS:公共静态方法
     //--------------------------------------------------------------------------
 
 public:
 
     //! This method returns the number of haptic devices available for this class of devices.
+	//! 此方法返回此类设备可用的触觉设备的数量。
     static unsigned int getNumDevices();
 
 
@@ -240,29 +241,30 @@ protected:
 protected:
 
     //! Allocation table for devices of this class. __true__ means that the device has been allocated, __false__ means free.
-    static bool s_allocationTable[C_MAX_DEVICES];
+	//此类设备的分配表__true\uuuu表示设备已分配，\uu false\uuuuu表示空闲。
+    static bool s_allocationTable[C_MAX_DEVICES];//分配表
 
-    //! Number of instances for this class of devices currently using the libraries.
+    //! Number of instances for this class of devices currently using the libraries.当前使用库的此类设备的实例数。
     static unsigned int s_libraryCounter;
 
 
     //--------------------------------------------------------------------------
-    // PUBLIC METHODS RESTRICTED TO FORCE DIMENSION DEVICES ONLY:
+    // PUBLIC METHODS RESTRICTED TO FORCE DIMENSION DEVICES ONLY:仅限于强制维度设备的公共方法
     //--------------------------------------------------------------------------
 
 public:
 
-    //! This method returns the type of this haptic device.
+    //! This method returns the type of this haptic device.此方法返回此触觉设备的类型。
     int getDeviceType() { return (m_deviceType); }
 
-    //! This method enables or disables forces.
+    //! This method enables or disables forces. 此方法启用或禁用力。
     bool enableForces(bool a_value);
 
-    //! This method orients the device around the y-axis.
+    //! This method orients the device around the y-axis.此方法使设备绕y轴定向。
     bool setDeviceAngleDeg(double a_angleDeg);
 
-    //! This method assign a vibration to the devices that support this feature.
-    bool setVibration(double a_freq, double a_amplitude, int a_type = 0);
+    //! This method assign a vibration to the devices that support this feature.此方法将振动分配给支持此功能的设备。
+    bool setVibration(double a_freq, double a_amplitude, int a_type = 0);//频率、振幅、类型
 
 
     //--------------------------------------------------------------------------
@@ -271,16 +273,16 @@ public:
 
 protected:
 
-    //! Device ID number among the Force Dimension devices connected to the computer.
+    //! Device ID number among the Force Dimension devices connected to the computer.连接到计算机的Force Dimension设备中的设备ID号
     int m_deviceID;
 
-    //! Device type among the Force Dimension devices.
+    //! Device type among the Force Dimension devices.力标注设备中的设备类型
     int m_deviceType;
 
-    //! Data structure for simulating a low-pass filter on user switches.
+    //! Data structure for simulating a low-pass filter on user switches.用于在用户交换机上模拟低通滤波器的数据结构。
     int m_userSwitchCount[8];
 
-    //! Last state of user switch.
+    //! Last state of user switch.用户开关的最后状态。
     int m_userSwitchStatus[8];
 
     //! Time guard for user switch.

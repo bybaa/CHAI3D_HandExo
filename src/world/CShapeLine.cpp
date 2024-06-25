@@ -71,7 +71,7 @@ cShapeLine::cShapeLine()
 /*!
     Constructor of cShapeLine. The line is constructed by passing two points
     expressed in the local reference frame of the line.
-
+    //构造函数，这条线由点A 点B构成
     \param  a_pointA  Point A of line.
     \param  a_pointB  Point B of line.
 */
@@ -100,7 +100,7 @@ cShapeLine::cShapeLine(const cVector3d& a_pointA, const cVector3d& a_pointB)
     \param  a_objectB  Object B to which line is attached.
 */
 //==============================================================================
-cShapeLine::cShapeLine(cGenericObject* a_objectA, cGenericObject* a_objectB)
+cShapeLine::cShapeLine(cGenericObject* a_objectA, cGenericObject* a_objectB)            //这条线由两个物体构成
 {
     // default line settings
     reset();

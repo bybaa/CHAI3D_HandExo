@@ -73,7 +73,7 @@ cShapeSphere::cShapeSphere(const double& a_radius,
     // initialize radius of sphere
     m_radius = fabs(a_radius);
 
-    // set material properties
+    // set material propertiesÉèÖÃ²ÄÁÏ
     if (a_material == nullptr)
     {
         m_material = cMaterial::create();

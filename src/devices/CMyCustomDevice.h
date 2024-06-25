@@ -115,18 +115,18 @@ typedef std::shared_ptr<cMyCustomDevice> cMyCustomDevicePtr;
 class cMyCustomDevice : public cGenericHapticDevice
 {
     //--------------------------------------------------------------------------
-    // CONSTRUCTOR & DESTRUCTOR:
+    // CONSTRUCTOR & DESTRUCTOR:构造函数和析构函数：
     //--------------------------------------------------------------------------
 
 public:
-
-    //! Constructor of cMyCustomDevice.
+	 static int GetAavilableNumDevices;
+    //! Constructor of cMyCustomDevice.cMyCustomDevice的构造函数。
     cMyCustomDevice(unsigned int a_deviceNumber = 0);
 
-    //! Destructor of cMyCustomDevice.
+    //! Destructor of cMyCustomDevice.cMyCustomDevice的析构函数。
     virtual ~cMyCustomDevice();
 
-    //! Shared cMyCustomDevice allocator.
+    //! Shared cMyCustomDevice allocator.共享cMyCustomDevice分配器。
     static cMyCustomDevicePtr create(unsigned int a_deviceNumber = 0) { return (std::make_shared<cMyCustomDevice>(a_deviceNumber)); }
 
 
@@ -136,19 +136,19 @@ public:
 
 public:
 
-    //! This method opens a connection to the haptic device.
+    //! This method opens a connection to the haptic device.//! 此方法打开与触觉设备的连接。
     virtual bool open();
 
     //! This method closes the connection to the haptic device.
     virtual bool close();
 
-    //! This method calibrates the haptic device.
+    //! This method calibrates the haptic device.//! 此方法校准触觉设备。
     virtual bool calibrate(bool a_forceCalibration = false);
 
-    //! This method returns the position of the device.
+    //! This method returns the position of the device.//! 此方法返回设备的位置。
     virtual bool getPosition(cVector3d& a_position);
 
-    //! This method returns the orientation frame of the device end-effector.
+    //! This method returns the orientation frame of the device end-effector.//! 此方法返回设备末端效应器的方向帧。
     virtual bool getRotation(cMatrix3d& a_rotation);
 
     //! This method returns the gripper angle in radian [rad].

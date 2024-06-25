@@ -1969,7 +1969,7 @@ public:
                     result.append(", ");
                 }
             }
-            result.append(" ) ");
+            result.append(") ");
         }
         result.append("]");
 

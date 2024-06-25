@@ -28,46 +28,23 @@
 					<div class="section">
 
 
-<p class="title">Getting started using CMake</p>
-<p>This guide assumes that your ODE module installation is located in the root of your CHAI3D installation (e.g. <code>~/chai3d/modules/ODE</code>)</p>
+<p class="title">Getting started on Windows using VisualStudio</p>
+<p>This guide assumes that your ODE module installation is located in the root of your CHAI3D installation (e.g. <code>%HOME%/chai3d/modules/ODE</code>)</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
-	<li>Make sure that <a href="http://www.cmake.org/" target="_blank">CMake</a> is installed for your platform.</li>
-	<li>On Windows, make sure that one of the following compilers is installed:
-	<ul>
-		<li>Microsoft <a href="http://www.visualstudio.com/" target="_blank">VisualStudio</a> (2013 Community Edition is recommended)</li>
-		<li>MinGW (<a href="http://www.mingw-w64.org/" target="_blank">mingw-w64</a> is required for both 32-bit and 64-bit builds)</li>
-	</ul>
-	<li>On Linux, make sure that the following development libraries are installed on your system:</li>
-	<ul>
-		<li>GLUT</li>
-		<li>libusb-1.0</li>
-		<li>libasound2</li>
-	</ul>
-	<li>On Mac OS X, make sure that <a href="https://developer.apple.com/xcode/downloads/" target="_blank">XCode</a> and the XCode Command Line Tools are installed.</li>
+	<li>Make sure that <a href="http://www.visualstudio.com/" target="_blank">VisualStudio</a> is installed.</li>
 </ul>
 <p><strong>Compilation</strong></p>
 <ul>
-	<li>open a terminal (or a DOS prompt on Windows)</li>
-	<li>cd to <code>~/chai3d/modules/ODE</code></li>
-	<li>create and cd to an out-of-source build folder (e.g. <code>~/chai3d/modules/ODE/build</code>):<br><code>mkdir build<br>cd build</code></li>
-	<li>configure project file:<br><code>cmake -DCMAKE_BUILD_TYPE=Release ..</code></li>
-	<li><i>(alternative configuration)</i> to configure project files with debug information, run:<br><code>cmake -DCMAKE_BUILD_TYPE=Debug ..</code></li>
-	<li><i>(alternative toolchain)</i> to configure project files with a different toolchain (e.g. MinGW on Windows), run:<br><code>cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..</code></li>
-	<li>build project as configured:<br><code>cmake --build .</code></li>
+	<li>open the main CHAI3D-ODE VisualStudio project file called <code>CHAI3D-ODE-VS####.sln</code> located in the installation <a href="../">root folder</a></li>
+	<li>make sure to open the file for the correct VisualStudio version (e.g. <code>CHAI3D-ODE-VS2013.sln</code> if using VisualStudio 2013)</li>
+	<li>select the build configuration and target architecture:<br><img src="resources/VS-config.png" style="margin-bottom: 5px;"></li>
+	<li>build CHAI3D-ODE and all examples (<code>Ctrl+Shift+B</code>)</li>
 </ul>
 <p><strong>Trying the examples</strong></p>
 <ul>
-	<li>from the terminal:</li>
-	<ul>
-		<li>cd to <code>~/chai3d/modules/ODE/bin</code></li>
-		<li>run examples (e.g. <code>./01-ODE-cube</code>)</li>
-	</ul>
-	<li>from the file manager:</li>
-	<ul>
-		<li>navigate to <code>~/chai3d/modules/ODE/bin</code></li>
-		<li>double-click on example executable (e.g. <code>01-ODE-cube</code> or <code>01-ODE-cube.exe</code>)</li>
-	</ul>
+	<li>navigate Explorer to <code>%HOME%/chai3d/modules/ODE/bin</code></li>
+	<li>double-click on example executable (e.g. <code>01-ODE-cube.exe</code>)</li>
 </ul>
 <p><strong>Reading the documentation</strong></p>
 <ul>

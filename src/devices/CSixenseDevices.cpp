@@ -55,16 +55,16 @@ namespace chai3d {
 // Number of instances for this class of devices currently using the libraries.
 unsigned int cSixenseDevice::s_libraryCounter = 0;
 
-// Allocation table for devices of this class.
+// Allocation table for devices of this class.分配表
 bool cSixenseDevice::s_allocationTable[C_MAX_DEVICES] = {false, false, false, false,
     false, false, false, false,
     false, false, false, false,
     false, false, false, false}; 
 
-//! Time guard for data acquisition.
+//! Time guard for data acquisition.//! 数据采集时钟监视
 cPrecisionClock cSixenseDevice::m_timeguard;
 
-//! Data acquired from the controller.
+//! Data acquired from the controller.从控制器获取的数据。
 sixenseAllControllerData cSixenseDevice::m_data;
 
 
@@ -142,7 +142,7 @@ extern "C"
 
 //==============================================================================
 /*!
-    This method open the libraries for this class of devices.
+    This method open the libraries for this class of devices.此方法打开此类设备的库。
 
     \return __true__ if the operation succeeds, __false__ otherwise.
 */
@@ -157,7 +157,7 @@ bool cSixenseDevice::openLibraries()
 
 
     ////////////////////////////////////////////////////////////////////////////
-    // initialize libraries
+    // initialize libraries根据不同系统初始化库
     ////////////////////////////////////////////////////////////////////////////
 
 #if defined(WIN32) | defined(WIN64)
@@ -178,7 +178,7 @@ bool cSixenseDevice::openLibraries()
         return (C_ERROR);
     }
 
-    // load different callbacks
+    // load different callbacks加载不同返回值
     sixenseInit = (int (__cdecl*)(void))GetProcAddress(SixenseDLL, "sixenseInit");
     sixenseExit = (int (__cdecl*)(void))GetProcAddress(SixenseDLL, "sixenseExit");
     sixenseGetMaxBases = (int (__cdecl*)(void))GetProcAddress(SixenseDLL, "sixenseGetMaxBases");
@@ -331,6 +331,7 @@ bool cSixenseDevice::closeLibraries()
 /*!
     This method returns the number of haptic devices available for this class 
     of device.
+	可用设备数量
 
     \return  Number of available haptic devices.
 */
@@ -368,7 +369,7 @@ unsigned int cSixenseDevice::getNumDevices()
 
 //==============================================================================
 /*!
-    Constructor of cSixenseDevice.
+    Constructor of cSixenseDevice.构造函数
 */
 //==============================================================================
 cSixenseDevice::cSixenseDevice(unsigned int a_deviceNumber)

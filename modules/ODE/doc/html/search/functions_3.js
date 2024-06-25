@@ -12,13 +12,13 @@ var searchData=
   ['deleteeffectvibration',['deleteEffectVibration',['../../../../../doc/html/classchai3d_1_1c_generic_object.html#a400245a6b6ba2f31422174e93c2a7efa',1,'chai3d::cGenericObject']]],
   ['deleteeffectviscosity',['deleteEffectViscosity',['../../../../../doc/html/classchai3d_1_1c_generic_object.html#af1408208da01eb16b4259de2f99bacb7',1,'chai3d::cGenericObject']]],
   ['deletemesh',['deleteMesh',['../../../../../doc/html/classchai3d_1_1c_multi_mesh.html#a4d0381196af3859105775540723fc2ac',1,'chai3d::cMultiMesh']]],
-  ['det',['det',['../../../../../doc/html/structchai3d_1_1c_matrix3d.html#a6a20f7cf2f3333f322ec971809c38128',1,'chai3d::cMatrix3d']]],
+  ['det',['det',['../../../../../doc/html/structchai3d_1_1c_matrix3d.html#a2b7eb6b5f586f300c2a4eddeced57191',1,'chai3d::cMatrix3d']]],
   ['detachaudiodevice',['detachAudioDevice',['../../../../../doc/html/classchai3d_1_1c_camera.html#aff1d8256c3dabfd01839ed46a00f581b',1,'chai3d::cCamera']]],
   ['disable',['disable',['../../../../../doc/html/classchai3d_1_1c_shader_program.html#a1c77c06e9d0aa2eaa9dfc224a5188757',1,'chai3d::cShaderProgram']]],
   ['disabledynamics',['disableDynamics',['../classc_o_d_e_generic_body.html#a77b81accc7244c8a1ee91ab945b55609',1,'cODEGenericBody']]],
-  ['distance',['distance',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a0d9b2b6fac5b60f6d3a24a517843183b',1,'chai3d::cVector3d']]],
-  ['distancesq',['distancesq',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a33d88c1014a1355b9a86f7fac0ece7cf',1,'chai3d::cVector3d']]],
+  ['distance',['distance',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#aa2db3fc287c0137063653e3acbd219f2',1,'chai3d::cVector3d']]],
+  ['distancesq',['distancesq',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a1272f851375eea5d7d56844048ded25e',1,'chai3d::cVector3d']]],
   ['div',['div',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a0bd1bad4dcda0a65f102dd0c342d54a3',1,'chai3d::cVector3d']]],
-  ['divr',['divr',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#abf8fe4f9bbd7b13d7d9f1280bcfd246e',1,'chai3d::cVector3d']]],
-  ['dot',['dot',['../../../../../doc/html/structchai3d_1_1c_quaternion.html#a216b2779ac53ac942debd0e7da5e5add',1,'chai3d::cQuaternion::dot()'],['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a6060e05a89394aada34e4d06d10cbf3e',1,'chai3d::cVector3d::dot()']]]
+  ['divr',['divr',['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a867dc931ea7b063df33cb786e40399e7',1,'chai3d::cVector3d']]],
+  ['dot',['dot',['../../../../../doc/html/structchai3d_1_1c_quaternion.html#ad9da6d8b8521ea098a262204824998e1',1,'chai3d::cQuaternion::dot()'],['../../../../../doc/html/structchai3d_1_1c_vector3d.html#a9be63ae73faa9d9da8d81952f217d282',1,'chai3d::cVector3d::dot()']]]
 ];

@@ -45,6 +45,7 @@
 //------------------------------------------------------------------------------
 #include "system/CGlobals.h"
 #include "devices/CMyCustomDevice.h"
+
 //------------------------------------------------------------------------------
 #if defined(C_ENABLE_CUSTOM_DEVICE_SUPPORT)
 //------------------------------------------------------------------------------
@@ -68,6 +69,41 @@ namespace chai3d {
 
 
 
+
+//------------------------------------------------------------------------------
+// WIN32
+//------------------------------------------------------------------------------
+#if defined(WIN32) | defined(WIN64)
+
+
+extern "C"
+{
+	//int GetAavilableNumDevices = 1;
+int (__stdcall *hdEOHNumDevices)  ();
+
+int (__stdcall *hdEOHOpen)           (const int a_deviceID);
+
+int (__stdcall *hdEOHClose)          (const int a_deviceID);
+
+int (__stdcall *hdEOHGetPosition)    (const int a_deviceID,
+                                          double *a_posX,
+                                          double *a_posY,
+                                          double *a_posZ);
+
+int (__stdcall *hdEOHGetRotation)    (const int a_deviceID,
+                                          double *a_rot00,
+                                          double *a_rot01,
+                                          double *a_rot02,
+                                          double *a_rot10,
+                                          double *a_rot11,
+                                          double *a_rot12,
+                                          double *a_rot20,
+                                          double *a_rot21,
+                                          double *a_rot22);
+
+}
+//------------------------------------------------------------------------------
+#endif	
 //==============================================================================
 /*!
     Constructor of cMyCustomDevice.
@@ -75,8 +111,10 @@ namespace chai3d {
 //==============================================================================
 cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
 {
-    // the connection to your device has not yet been established.
+    // the connection to your device has not yet been established.未建立为false
     m_deviceReady = false;
+
+	
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -87,21 +125,26 @@ cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
         These values only need to be estimates. Since haptic devices often perform
         differently depending of their configuration withing their workspace,
         simply use average values.
+		步骤1：
+		您应该在此处定义设备的规格。
+		这些值只需要是估计值。因为触觉设备经常执行
+		根据其工作空间的配置不同，
+		只需使用平均值。
     */
     ////////////////////////////////////////////////////////////////////////////
 
     //--------------------------------------------------------------------------
-    // NAME:
+    // NAME:Exoskeleton of hand
     //--------------------------------------------------------------------------
 
     // haptic device model (see file "CGenericHapticDevice.h")
     m_specifications.m_model                         = C_HAPTIC_DEVICE_CUSTOM;
 
     // name of the device manufacturer, research lab, university.
-    m_specifications.m_manufacturerName              = "My Name";
+    m_specifications.m_manufacturerName              = "Remote control research group";
 
     // name of your device
-    m_specifications.m_modelName                     = "My Custom Device";
+    m_specifications.m_modelName                     = "Exoskeleton of hand";
 
 
     //--------------------------------------------------------------------------
@@ -109,30 +152,30 @@ cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
     //--------------------------------------------------------------------------
 
     // the maximum force [N] the device can produce along the x,y,z axis.
-    m_specifications.m_maxLinearForce                = 5.0;     // [N]
+    m_specifications.m_maxLinearForce                = 0;     // [N]
 
     // the maximum amount of torque your device can provide arround its
     // rotation degrees of freedom.
-    m_specifications.m_maxAngularTorque              = 0.2;     // [N*m]
+    m_specifications.m_maxAngularTorque              = 0;     // [N*m]
 
 
     // the maximum amount of torque which can be provided by your gripper
-    m_specifications.m_maxGripperForce                = 3.0;     // [N]
+    m_specifications.m_maxGripperForce                = 0;     // [N]
 
     // the maximum closed loop linear stiffness in [N/m] along the x,y,z axis
-    m_specifications.m_maxLinearStiffness             = 1000.0; // [N/m]
+    m_specifications.m_maxLinearStiffness             = 0; // [N/m]
 
     // the maximum amount of angular stiffness
-    m_specifications.m_maxAngularStiffness            = 1.0;    // [N*m/Rad]
+    m_specifications.m_maxAngularStiffness            = 0;    // [N*m/Rad]
 
     // the maximum amount of stiffness supported by the gripper
-    m_specifications.m_maxGripperLinearStiffness      = 1000;   // [N*m]
+    m_specifications.m_maxGripperLinearStiffness      = 0;   // [N*m]
 
     // the radius of the physical workspace of the device (x,y,z axis)
-    m_specifications.m_workspaceRadius                = 0.2;     // [m]
+    m_specifications.m_workspaceRadius                = 0.075;     // [m]
 
     // the maximum opening angle of the gripper
-    m_specifications.m_gripperMaxAngleRad             = cDegToRad(30.0);
+    m_specifications.m_gripperMaxAngleRad             = cDegToRad(0.0);
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -143,11 +186,16 @@ cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
         the quality of your velocity signal and the spatial resolution of your
         device. Try gradually increasing the values by using example "01-devices" 
         and by enabling viscosity with key command "2".
+		阻尼特性：
+		从较小的值开始，因为阻尼项可能较高；y敏感于
+		速度信号的质量和
+		装置尝试使用示例“01设备”逐渐增加值
+		并通过按键命令“2”启用粘度。
     */
     ////////////////////////////////////////////////////////////////////////////
     
-    // Maximum recommended linear damping factor Kv
-    m_specifications.m_maxLinearDamping             = 20.0;   // [N/(m/s)]
+    // Maximum recommended linear damping factor Kv最大推荐线性阻尼系数Kv
+    m_specifications.m_maxLinearDamping             = 1;   // [N/(m/s)]
 
     //! Maximum recommended angular damping factor Kv (if actuated torques are available)
     m_specifications.m_maxAngularDamping            = 0.0;    // [N*m/(Rad/s)]
@@ -160,28 +208,28 @@ cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
     // CHARACTERISTICS: (The following are of boolean type: (true or false)
     //--------------------------------------------------------------------------
 
-    // does your device provide sensed position (x,y,z axis)?
+    // does your device provide sensed position (x,y,z axis)?您的设备是否提供感应位置（x、y、z轴）？
     m_specifications.m_sensedPosition                = true;
 
-    // does your device provide sensed rotations (i.e stylus)?
+    // does your device provide sensed rotations (i.e stylus)?您的设备是否提供感应旋转（即手写笔）？
     m_specifications.m_sensedRotation                = true;
 
-    // does your device provide a gripper which can be sensed?
-    m_specifications.m_sensedGripper                 = true;
+    // does your device provide a gripper which can be sensed?您的设备是否提供可感测的夹持器？
+    m_specifications.m_sensedGripper                 = false;
 
-    // is you device actuated on the translation degrees of freedom?
+    // is you device actuated on the translation degrees of freedom?设备是否根据平移自由度启动？
     m_specifications.m_actuatedPosition              = true;
 
-    // is your device actuated on the rotation degrees of freedom?
-    m_specifications.m_actuatedRotation              = true;
+    // is your device actuated on the rotation degrees of freedom?您的设备是否根据旋转自由度启动
+    m_specifications.m_actuatedRotation              = false;
 
-    // is the gripper of your device actuated?
-    m_specifications.m_actuatedGripper               = true;
+    // is the gripper of your device actuated?设备的抓手是否已启动？
+    m_specifications.m_actuatedGripper               = false;
 
-    // can the device be used with the left hand?
+    // can the device be used with the left hand?该设备能否与左手配合使用
     m_specifications.m_leftHand                      = true;
 
-    // can the device be used with the right hand?
+    // can the device be used with the right hand?该设备可以用右手使用吗？
     m_specifications.m_rightHand                     = true;
 
 
@@ -193,28 +241,45 @@ cMyCustomDevice::cMyCustomDevice(unsigned int a_deviceNumber)
         device is actually connected to your computer and can be accessed.
         In practice this may be consist in checking if your I/O board
         is active or if your drivers are available.
+		在这里，您应该实现代码，告诉应用程序
+		该设备实际上已连接到您的计算机，并且可以访问。
+		实际上，这可能包括检查输入/输出板
+		处于活动状态或您的驱动程序可用。
 
         If your device can be accessed, set:
-        m_systemAvailable = true;
+        m_systemAvailable = true;如果可以访问您的设备，请设置： m_systemAvailable = true
 
-        Otherwise set:
+        Otherwise set:否则
         m_systemAvailable = false;
 
-        Your actual code may look like:
+        Your actual code may look like:您的实际代码可能如下所示：
 
         bool result = checkIfMyDeviceIsAvailable()
         m_systemAvailable = result;
 
         If want to support multiple devices, using the method argument
-        a_deviceNumber to know which device to setup
+        a_deviceNumber to know which device to setup如果要支持多个设备，请使用method参数知道要设置哪个设备的\u设备编号
     */  
     ////////////////////////////////////////////////////////////////////////////
         
 
     // *** INSERT YOUR CODE HERE ***
-    m_MyVariable = 0;
+    m_MyVariable = 0;	
 
     m_deviceAvailable = false; // this value should become 'true' when the device is available.
+
+	int avilableNumDevices=1;
+    // check if such device is available
+    if (avilableNumDevices)
+    {
+        // no, such ID does not lead to an existing device
+        m_deviceAvailable = true;
+    }
+    else
+    {
+        // yes, this ID leads to an existing device
+        m_deviceAvailable = false;
+    }
 }
 
 
@@ -246,8 +311,12 @@ bool cMyCustomDevice::open()
     if (!m_deviceAvailable) return (C_ERROR);
 
     // if system is already opened then return
-    if (m_deviceReady) return (C_ERROR);
+    if (m_deviceReady) return (C_SUCCESS);
 
+		    // update device status
+    m_deviceReady = true;
+	    // return success
+    return (C_SUCCESS);
     ////////////////////////////////////////////////////////////////////////////
     /*
         STEP 3:
@@ -265,23 +334,23 @@ bool cMyCustomDevice::open()
     */
     ////////////////////////////////////////////////////////////////////////////
 
-    bool result = C_ERROR; // this value will need to become "C_SUCCESS" for the device to be marked as ready.
-
-    // *** INSERT YOUR CODE HERE ***
-    // result = openConnectionToMyDevice();
-
-
-    // update device status
-    if (result)
-    {
-        m_deviceReady = true;
-        return (C_SUCCESS);
-    }
-    else
-    {
-        m_deviceReady = false;
-        return (C_ERROR);
-    }
+//    bool result = C_SUCCESS; // this value will need to become "C_SUCCESS" for the device to be marked as ready.
+//
+//    // *** INSERT YOUR CODE HERE ***
+//     //result = openConnectionToMyDevice();
+//
+//
+//  /*   update device status*/
+//    if (result)
+//    {
+//        m_deviceReady = true;
+//        return (C_SUCCESS);
+//    }
+//    else
+//    {
+//        m_deviceReady = false;
+//        return (C_ERROR);
+//    }
 }
 
 
@@ -294,7 +363,7 @@ bool cMyCustomDevice::open()
 //==============================================================================
 bool cMyCustomDevice::close()
 {
-    // check if the system has been opened previously
+     //check if the system has been opened previously//检查系统之前是否已打开
     if (!m_deviceReady) return (C_ERROR);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -306,13 +375,16 @@ bool cMyCustomDevice::close()
 
         If the operation fails, simply set the variable 'result' to C_ERROR   .
         If the connection succeeds, set the variable 'result' to C_SUCCESS.
+		在这里，您应该实现关闭与装置
+		如果操作失败，只需将变量“result”设置为C\U ERROR。
+		如果连接成功，请将变量“result”设置为C\u SUCCESS。
     */
     ////////////////////////////////////////////////////////////////////////////
 
-    bool result = C_SUCCESS; // if the operation fails, set value to C_ERROR.
+    bool result = C_SUCCESS; // if the operation fails, set value to C_ERROR.设备开着才能关闭，若关闭了再运行close就报错
 
     // *** INSERT YOUR CODE HERE ***
-    // result = closeConnectionToMyDevice()
+  //result = closeConnectionToMyDevice();
 
     // update status
     m_deviceReady = false;
@@ -366,6 +438,8 @@ bool cMyCustomDevice::calibrate(bool a_forceCalibration)
     This method returns the number of devices available from this class of device.
 
     \return __true__ if the operation succeeds, __false__ otherwise.
+	此方法返回此类设备中可用的设备数。
+	\如果操作成功，则返回\uu true\uuuu，否则返回\uu false\uuuu。
 */
 //==============================================================================
 unsigned int cMyCustomDevice::getNumDevices()
@@ -387,13 +461,13 @@ unsigned int cMyCustomDevice::getNumDevices()
     */
     ////////////////////////////////////////////////////////////////////////////
 
-    // *** INSERT YOUR CODE HERE, MODIFY CODE below ACCORDINGLY ***
+    // *** INSERT YOUR CODE HERE, MODIFY修改 CODE below ACCORDINGLY ***
+  //numberOfDevices = getNumberOfDevicesConnectedToTheComputer();
+    int avilableNumDevices =1;  // At least set to 1 if a device is available.
 
-    int numberOfDevices = 0;  // At least set to 1 if a device is available.
+   
 
-    // numberOfDevices = getNumberOfDevicesConnectedToTheComputer();
-
-    return (numberOfDevices);
+    return (avilableNumDevices);
 }
 
 
@@ -404,11 +478,14 @@ unsigned int cMyCustomDevice::getNumDevices()
     \param   a_position  Return value.
 
     \return __true__ if the operation succeeds, __false__ otherwise.
+	此方法返回设备的位置。单位为米【m】。
+	\参数a\u位置返回值。
+	\如果操作成功，则返回\uu true\uuuu，否则返回\uu false\uuuu。
 */
 //==============================================================================
 bool cMyCustomDevice::getPosition(cVector3d& a_position)
 {
-    // check if the device is read. See step 3.
+    // check if the device is read. See step 3.检查设备时候已经连接
     if (!m_deviceReady) return (C_ERROR);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -425,22 +502,33 @@ bool cMyCustomDevice::getPosition(cVector3d& a_position)
         If your device is located in front of you, the x-axis is pointing
         towards you (the operator). The y-axis points towards your right
         hand side and the z-axis points up towards the sky. 
+		在这里，您应该实现从以下位置读取位置（X，Y，Z）的代码
+		您的触觉设备。从设备读取值并修改
+		相应的局部变量（x，y，z）。
+		如果操作失败，则返回C\U错误，否则返回C\U成功
+		注：
+		为了保持一致性，单位必须以米为单位。
+		如果设备位于前方，则x轴指向
+		朝向您（操作员）。y轴指向您的右侧
+		手侧和z轴指向天空。
     */
     ////////////////////////////////////////////////////////////////////////////
+
+
 
     bool result = C_SUCCESS;
     double x,y,z;
 
     // *** INSERT YOUR CODE HERE, MODIFY CODE below ACCORDINGLY ***
 
-    x = 0.0;    // x = getMyDevicePositionX()
-    y = 0.0;    // y = getMyDevicePositionY()
-    z = 0.0;    // z = getMyDevicePositionZ()
+    x = 0.05;    // x = getMyDevicePositionX()
+    y = 0.05;    // y = getMyDevicePositionY()
+    z = 0;    // z = getMyDevicePositionZ()
 
     // store new position values
     a_position.set(x, y, z);
 
-    // estimate linear velocity
+    // estimate linear velocity估计线速度
     estimateLinearVelocity(a_position);
 
     // exit
@@ -455,6 +543,9 @@ bool cMyCustomDevice::getPosition(cVector3d& a_position)
     \param   a_rotation  Return value.
 
     \return __true__ if the operation succeeds, __false__ otherwise.
+	此方法返回设备末端效应器的方向帧
+	\参数a\u旋转返回值。
+	\如果操作成功，则返回\uu true\uuuu，否则返回\uu false\uuuu。
 */
 //==============================================================================
 bool cMyCustomDevice::getRotation(cMatrix3d& a_rotation)
@@ -480,6 +571,18 @@ bool cMyCustomDevice::getRotation(cMatrix3d& a_rotation)
 
         If your device has a stylus, make sure that you set the reference frame
         so that the x-axis corresponds to the axis of the stylus.
+		在这里，您将实现从
+		您的触觉设备。方向框由3x3表示
+		旋转矩阵。该矩阵的第一列对应于
+		x轴，第二列到y轴，第三列到z轴。
+		每个列向量的长度应为1，并且向量需要
+		相互正交的相互正交的。
+		注：
+		如果设备位于前方，则x轴指向
+		朝向您（操作员）。y轴指向您的右侧
+		手侧和z轴指向天空。
+		如果您的设备有触控笔，请确保设置了参考帧
+		使x轴与手写笔的轴相对应。
     */
     ////////////////////////////////////////////////////////////////////////////
 
@@ -645,6 +748,10 @@ bool cMyCustomDevice::getUserSwitches(unsigned int& a_userSwitches)
         on your device. For each user switch, set the associated bit on variable
         a_userSwitches. If your device only has one user switch, then set 
         a_userSwitches to 1, when the user switch is engaged, and 0 otherwise.
+		在此，您应实现读取所有用户开关状态的代码
+		在您的设备上。对于每个用户开关，设置变量上的相关位
+		a\u用户开关。如果您的设备只有一个用户交换机，则设置
+		当用户开关接通时，a\u userSwitches为1，否则为0。
     */
     ////////////////////////////////////////////////////////////////////////////
 
