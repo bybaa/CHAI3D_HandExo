@@ -6,9 +6,9 @@
 #include <iostream>
 #pragma comment(lib , "ws2_32.lib")
 
-#define ADDRESS_STM32 "192.168.123.30"
+#define ADDRESS_STM32 "192.168.2.30"
 #define PORT_STM32 8089
-#define ADDRESS_PC "192.168.123.100"
+#define ADDRESS_PC "192.168.2.111"
 #define PORT_PC 8089
 
 #include "chai3d.h"
